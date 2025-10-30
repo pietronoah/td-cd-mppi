@@ -262,7 +262,7 @@
                     </span><br>
                     
                     <!-- Conference or journal info -->
-                    <span class="author-block">IEEE Robotics and Automation Letters (RAL), 2025</span>
+                    <span class="author-block">Accepted for publication in <em>IEEE Robotics and Automation Letters (RAL)</em>, 2025</span>
                   </div>
 
                   <div class="column has-text-centered">
@@ -286,7 +286,7 @@
                     <span class="icon">
                       <i class="fab fa-github"></i>
                     </span>
-                    <span>Code</span>
+                    <span>Code (Coming Soon)</span>
                   </a>
                 </span>
 
@@ -471,34 +471,108 @@
 
 
 
+
+
+<!-- Experiments and Results Section -->
+<section class="section">
+  <div class="container is-max-desktop has-text-centered">
+
+    <h2 class="title is-3">Experimental Results</h2>
+
+    <p style="text-align: justify; margin-bottom: 2rem;">
+      The proposed <strong>TD-CD-MPPI</strong> controller was evaluated both in simulation and on the 
+      <em>Solo12</em> quadruped robot. We compared its performance against 
+      <strong>DIAL-MPC</strong> and <strong>Vanilla MPPI</strong> for various prediction horizons 
+      and sample numbers. Results indicate that incorporating a terminal value function enables 
+      <strong>long-horizon reasoning</strong> and <strong>constraint satisfaction</strong> while 
+      retaining real-time feasibility.
+    </p>
+
+    <!-- Combined Figures with Shared Caption -->
+    <div style="margin-bottom: 2rem;">
+      <figure class="image" style="margin-bottom: 1.5rem;">
+        <img src="static/images/new_reward_comparison_with_left_hatch_three_flat.png" 
+             alt="Average Reward vs Horizon">
+      </figure>
+
+      <figure class="image">
+        <img src="static/images/reward_comparison_with_left_hatch_three_flat.png" 
+             alt="Average Reward vs Number of Samples">
+      </figure>
+
+      <figcaption class="has-text-centered mt-3" 
+                  style="max-width: 80%; margin: auto; font-style: italic;">
+        <strong>Average reward across horizons and number of samples:</strong>
+        TD-CD-MPPI outperforms DIAL-MPC and Vanilla MPPI, maintaining 
+        high performance even with reduced horizon length or fewer sampled trajectories. 
+      </figcaption>
+    </div>
+
+    <p style="text-align: justify; margin-top: 1.5em;">
+      Overall, TD-CD-MPPI matches or exceeds the performance of DIAL-MPC while reducing the 
+      required sampling budget by up to <strong>10×</strong> and GPU memory consumption by 
+      <strong>30%</strong>. The controller generalizes effectively to out-of-distribution conditions 
+      such as ramp and stair climbing, maintaining stability and constraint satisfaction.
+    </p>
+
+  </div>
+</section>
+<!-- End Experiments and Results Section -->
+
+
+
+
+
   
 
-  <!-- Horizon Comparison Videos -->
+<!-- Horizon Comparison Videos -->
 <section class="section">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Horizon Comparison</h2>
+
+    <p style="text-align: justify; margin-bottom: 1.5rem;">
+      This comparison illustrates the impact of the MPC planning horizon on control performance.
+      While DIAL-MPC becomes unstable for short horizons, the proposed <strong>TD-CD-MPPI</strong> maintains
+      stable walking even with reduced horizon length, thanks to the terminal value function that 
+      extends the controller’s effective planning horizon.
+    </p>
     
     <div class="columns is-centered is-variable is-6">
-      <!-- Video 1: Short Horizon -->
-      <video autoplay muted loop preload="metadata" style="width: 100%; object-fit: cover;">
-          <source src="static/videos/video_horizon.mp4" type="video/mp4">
-        </video>
+      <video autoplay muted loop preload="metadata" style="width: 100%; object-fit: cover; border-radius: 12px;">
+        <source src="static/videos/video_horizon.mp4" type="video/mp4">
+      </video>
     </div>
+
+    <p class="has-text-centered mt-3" style="font-style: italic;">
+      Figure 1 – Effect of the MPC horizon on locomotion stability. TD-CD-MPPI remains stable even
+      with short horizons where DIAL-MPC fails.
+    </p>
   </div>
 </section>
 <!-- End Horizon Comparison Videos -->
+
 
 <!-- Sample Number Comparison Videos -->
 <section class="section">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Number of Samples Comparison</h2>
-    
+
+    <p style="text-align: justify; margin-bottom: 1.5rem;">
+      Here, we evaluate the controller’s robustness when the number of trajectory rollouts is reduced.
+      TD-CD-MPPI preserves performance and constraint satisfaction with significantly fewer samples
+      compared to DIAL-MPC, demonstrating its computational efficiency.
+    </p>
+
     <div class="columns is-centered is-variable is-6">
-      <!-- Video 1: Short Horizon -->
-      <video autoplay muted loop preload="metadata" style="width: 100%; object-fit: cover;">
-          <source src="static/videos/video_samples.mp4" type="video/mp4">
-        </video>
+      <video autoplay muted loop preload="metadata" style="width: 100%; object-fit: cover; border-radius: 12px;">
+        <source src="static/videos/video_samples.mp4" type="video/mp4">
+      </video>
     </div>
+
+    <p class="has-text-centered mt-3" style="font-style: italic;">
+      Figure 2 – Comparison of locomotion with different numbers of samples. TD-CD-MPPI achieves
+      stable walking even with 5–10× fewer samples.
+    </p>
   </div>
 </section>
 <!-- End Number of Samples Comparison Videos -->
@@ -507,60 +581,88 @@
 <!-- Hardware Experiment Comparison Videos -->
 <section class="section">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Stair climbing comparison</h2>
+    <h2 class="title is-3 has-text-centered">Stair Climbing Comparison</h2>
+
+    <p style="text-align: justify; margin-bottom: 1.5rem;">
+      The following videos compare <strong>DIAL-MPC</strong> (left) and <strong>TD-CD-MPPI</strong> (right)
+      when climbing stairs — a scenario outside the training distribution.
+      Both controllers use the correct terrain model, but TD-CD-MPPI generalizes without retraining
+      the value function, maintaining stable and constraint-consistent motion.
+    </p>
 
     <div class="columns is-variable is-6 is-centered">
-      <!-- Left Video: Method 1 -->
-      <div class="column is-half">
-        <video autoplay muted loop preload="metadata" style="width: 100%; object-fit: cover;">
+      <!-- Left Video: Baseline -->
+      <div class="column is-half has-text-centered">
+        <video autoplay muted loop preload="metadata" style="width: 100%; object-fit: cover; border-radius: 12px;">
           <source src="static/videos/stairs_1.mp4" type="video/mp4">
         </video>
+        <p class="is-size-6 mt-2" style="font-style: italic;">(a) DIAL-MPC baseline</p>
       </div>
 
-      <!-- Right Video: Method 2 -->
-      <div class="column is-half">
-        <video autoplay muted loop preload="metadata" style="width: 100%; object-fit: cover;">
+      <!-- Right Video: Proposed -->
+      <div class="column is-half has-text-centered">
+        <video autoplay muted loop preload="metadata" style="width: 100%; object-fit: cover; border-radius: 12px;">
           <source src="static/videos/stairs_2.mp4" type="video/mp4">
         </video>
+        <p class="is-size-6 mt-2" style="font-style: italic;">(b) TD-CD-MPPI (ours)</p>
       </div>
     </div>
+
+    <p class="has-text-centered mt-3" style="font-style: italic;">
+      Figure 3 – Comparison of stair climbing performance. TD-CD-MPPI adapts online and completes
+      the climb successfully, while DIAL-MPC loses balance under the same conditions.
+    </p>
   </div>
 </section>
 <!-- End Hardware Experiment Comparison Videos -->
-
-
 
 
 <!-- Hardware Experiments Videos -->
 <section class="section">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Hardware Experiments</h2>
+
+    <p style="text-align: justify; margin-bottom: 1.5rem;">
+      Finally, the proposed controller was deployed on the real <strong>Solo12</strong> quadruped robot.
+      The experiments include flat-ground walking, ramp traversal, and staircase climbing.
+      Despite dynamics mismatches and additional payload, TD-CD-MPPI transfers to real hardware
+      without any fine-tuning or domain adaptation.
+    </p>
     
     <div class="columns is-centered is-variable is-6">
       <!-- Video 1 -->
-      <div class="column">
-        <video autoplay muted loop preload="metadata" style="width: 100%; object-fit: cover;">
+      <div class="column has-text-centered">
+        <video autoplay muted loop preload="metadata" style="width: 100%; object-fit: cover; border-radius: 12px;">
           <source src="static/videos/hw_1.mp4" type="video/mp4">
         </video>
+        <p class="is-size-6 mt-2" style="font-style: italic;">(a) Ramp traversal</p>
       </div>
-      
+
       <!-- Video 2 -->
-      <div class="column">
-        <video autoplay muted loop preload="metadata" style="width: 100%; object-fit: cover;">
+      <div class="column has-text-centered">
+        <video autoplay muted loop preload="metadata" style="width: 100%; object-fit: cover; border-radius: 12px;">
           <source src="static/videos/hw_2.mp4" type="video/mp4">
         </video>
+        <p class="is-size-6 mt-2" style="font-style: italic;">(b) Ramp traversal</p>
       </div>
-      
+
       <!-- Video 3 -->
-      <div class="column">
-        <video autoplay muted loop preload="metadata" style="width: 100%; object-fit: cover;">
+      <div class="column has-text-centered">
+        <video autoplay muted loop preload="metadata" style="width: 100%; object-fit: cover; border-radius: 12px;">
           <source src="static/videos/hw_3.mp4" type="video/mp4">
         </video>
+        <p class="is-size-6 mt-2" style="font-style: italic;">(c) Model weight mismatch</p>
       </div>
     </div>
+
+    <p class="has-text-centered mt-3" style="font-style: italic;">
+      Figure 4 – Real-world deployment on the Solo12 robot. TD-CD-MPPI generalizes across different
+      terrains and maintains constraint satisfaction under modeling uncertainties.
+    </p>
   </div>
 </section>
 <!-- End Hardware Experiments Videos -->
+
 
 
 
